@@ -17,15 +17,14 @@ version = '0.1'
 ctk.set_appearance_mode("dark")
 logging.basicConfig(level=logging.INFO)
 
-# Настройка параметров Chrome
 chrome_options = Options()
-chrome_options.add_argument("--headless")  # Запуск без графического интерфейса
+chrome_options.add_argument("--headless") 
 chrome_options.add_argument("--disable-gpu")
 chrome_options.add_argument("--no-sandbox")
 service = Service(ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service, options=chrome_options)
 
-# Список серверов с их соответствующими URL
+
 server_urls = {
     "Downtown": "https://gta5rp.com/api/V2/users/chars/1",
     "Strawberry": "https://gta5rp.com/api/V2/users/chars/2",
@@ -144,7 +143,6 @@ def sign_up():
 
     if driver.current_url == "https://gta5rp.com/user/stats":
         save_cookie()
-        # Получение размера экрана
         screen_width = loginWindow.winfo_screenwidth()
         screen_height = loginWindow.winfo_screenheight()
 
@@ -162,9 +160,9 @@ def sign_up():
 
         def on_arrow_key(event):
             current_index = servers.index(server_option_menu.get())
-            if event.keysym == "Up":  # Обработка нажатия стрелки вверх
+            if event.keysym == "Up":  
                 new_index = (current_index - 1) % len(servers)
-            elif event.keysym == "Down":  # Обработка нажатия стрелки вниз
+            elif event.keysym == "Down": 
                 new_index = (current_index + 1) % len(servers)
             else:
                 return
@@ -172,27 +170,26 @@ def sign_up():
 
         servers = list(server_urls.keys())
         server_option_menu = ctk.CTkOptionMenu(loginWindow, values=servers, command=on_server_select)
-        server_option_menu.pack(pady=10, anchor='w', padx=10)  # Привязка к левому краю
+        server_option_menu.pack(pady=10, anchor='w', padx=10) 
 
         server_option_menu.bind('<Up>', on_arrow_key)
         server_option_menu.bind('<Down>', on_arrow_key)
 
         global result_label
         result_label = ctk.CTkLabel(loginWindow, text="Выберите сервер", font=("Arial", 16, "bold"))
-        result_label.pack(pady=20, anchor='w', padx=10, side = "top")  # Привязка к левому краю
+        result_label.pack(pady=20, anchor='w', padx=10, side = "top") 
     else:
         driver.quit()
 
-
-# Создаем окно для логина
 loginWindow = ctk.CTk()
 loginWindow.title("Вход в аккаунт | GTA 5 RP")
-# Получение размера экрана
+
 screen_width = loginWindow.winfo_screenwidth()
 screen_height = loginWindow.winfo_screenheight()
 
 window_width = 255
 window_height = 180
+
 x_position = (screen_width - window_width) // 2
 y_position = (screen_height - window_height) // 2
 loginWindow.geometry(f'{window_width}x{window_height}+{x_position}+{y_position}')
